@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  jenkins:
+    image: jenkins:1.0.1
+    #build: .
+    container_name: jenkins
+    user: root
+    ports:
+      - "8080:8080"
+      - "50000:50000"
+    volumes:
+      - ./jenkins_data:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
+      - C:/Users/Vinay.Durga/Desktop:/host_desktop
+      - /mnt/c/Users/Vinay.Durga/Desktop:/host_desktop
+    restart: unless-stopped
+
+volumes:
+  jenkins_data:  
