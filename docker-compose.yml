@@ -1,10 +1,8 @@
 version: '3.8'
-
 services:
   jenkins:
-    image: jenkins:1.0.1
-    #build: .
-    container_name: jenkins
+    image: vinaymedicherla/jenkins:latest_tag_placeholder
+    # build: .
     user: root
     ports:
       - "8080:8080"
@@ -15,6 +13,5 @@ services:
       - C:/Users/Vinay.Durga/Desktop:/host_desktop
       - /mnt/c/Users/Vinay.Durga/Desktop:/host_desktop
     restart: unless-stopped
-
 volumes:
-  jenkins_data:  
+  jenkins_data:

@@ -1,0 +1,85 @@
+<?xml version='1.1' encoding='UTF-8'?>
+<flow-definition plugin="workflow-job@1546.v62a_c59c112dd">
+  <actions>
+    <org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobAction plugin="pipeline-model-definition@2.2273.v643f36ed9e94"/>
+    <org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobPropertyTrackerAction plugin="pipeline-model-definition@2.2273.v643f36ed9e94">
+      <jobProperties/>
+      <triggers/>
+      <parameters/>
+      <options/>
+    </org.jenkinsci.plugins.pipeline.modeldefinition.actions.DeclarativeJobPropertyTrackerAction>
+  </actions>
+  <description></description>
+  <keepDependencies>false</keepDependencies>
+  <properties/>
+  <definition class="org.jenkinsci.plugins.workflow.cps.CpsFlowDefinition" plugin="workflow-cps@4183.v94b_6fd39da_c1">
+    <script>pipeline {
+    agent any
+    environment {
+        DOCKERHUB_USER = &apos;vinaymedicherla&apos;
+        IMAGE_NAME = &apos;jenkins&apos;
+        BRANCH_NAME = &apos;VINAY_REPO&apos;  // matches CI branch name
+        COMPOSE_FILE = &apos;docker-compose.yml&apos;
+    }
+    stages {
+        stage(&apos;Checkout&apos;) {
+            steps {
+                git branch: &quot;${BRANCH_NAME}&quot;,
+                    url: &apos;https://github.com/VinayMedicherla/VINAY_REPO.git&apos;,
+                    credentialsId: &apos;github-pat&apos;
+            }
+        }
+        stage(&apos;Get Git Tag or Branch for Deployment&apos;) {
+            steps {
+                script {
+                    def gitTag = sh(script: &quot;git describe --tags --exact-match || true&quot;, returnStdout: true).trim()
+                    if (!gitTag) {
+                        gitTag = sh(script: &quot;git describe --tags `git rev-list --tags --max-count=1` || true&quot;, returnStdout: true).trim()
+                    }
+                    if (!gitTag) {
+                        gitTag = BRANCH_NAME
+                    }
+                    echo &quot;Using tag/branch for deployment: ${gitTag}&quot;
+                    env.DEPLOY_TAG = gitTag
+                }
+            }
+        }
+        stage(&apos;Update docker-compose.yml with Image Tag&apos;) {
+            steps {
+                script {
+                    def imageFullName = &quot;${DOCKERHUB_USER}/${IMAGE_NAME}:${DEPLOY_TAG}&quot;
+                    echo &quot;Updating ${COMPOSE_FILE} with image: ${imageFullName}&quot;
+                    sh &quot;&quot;&quot;
+                    sed -i &quot;s|image: ${DOCKERHUB_USER}/${IMAGE_NAME}:.*|image: ${imageFullName}|&quot; ${COMPOSE_FILE}
+                    &quot;&quot;&quot;
+                }
+            }
+        }
+        stage(&apos;Deploy with Docker Compose&apos;) {
+            steps {
+                script {
+                    echo &quot;Stopping and removing existing container if any&quot;
+                    sh &quot;&quot;&quot;
+                    docker rm -f ${IMAGE_NAME} || true
+                    docker-compose -f ${COMPOSE_FILE} down
+                    docker-compose -f ${COMPOSE_FILE} up -d
+                    &quot;&quot;&quot;
+                }
+            }
+        }
+    }
+    post {
+        failure {
+            echo &quot;Deployment failed!&quot;
+        }
+        success {
+            echo &quot;Deployment completed successfully!&quot;
+        }
+    }
+}
+</script>
+    <sandbox>true</sandbox>
+  </definition>
+  <triggers/>
+  <disabled>false</disabled>
+</flow-definition>
