@@ -1,0 +1,17 @@
+<?xml version='1.1' encoding='UTF-8'?>
+<fingerprint>
+  <timestamp>2025-09-20 10:01:08.583 UTC</timestamp>
+  <md5sum>f69da79d53db2ec66140857d91e972a9</md5sum>
+  <fileName>Credential id=github-pat name=vinaymedicherla/******</fileName>
+  <usages>
+    <entry>
+      <string>Vinay_CD_Pipeline</string>
+      <ranges>1-10</ranges>
+    </entry>
+    <entry>
+      <string>Vinay_CI_Pipeline</string>
+      <ranges>1-4</ranges>
+    </entry>
+  </usages>
+  <facets/>
+</fingerprint>

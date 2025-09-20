@@ -1,0 +1,34 @@
+<?xml version='1.1' encoding='UTF-8'?>
+<Tag plugin="workflow-support@989.va_20a_1a_57710a_">
+  <node class="cps.n.StepAtomNode" plugin="workflow-cps@4183.v94b_6fd39da_c1">
+    <parentIds>
+      <string>8</string>
+    </parentIds>
+    <id>9</id>
+    <descriptorId>jenkins.plugins.git.GitStep</descriptorId>
+  </node>
+  <actions>
+    <cps.a.ArgumentsActionImpl plugin="workflow-cps@4183.v94b_6fd39da_c1">
+      <arguments>
+        <entry>
+          <string>branch</string>
+          <string>VINAY_REPO</string>
+        </entry>
+        <entry>
+          <string>url</string>
+          <string>https://github.com/VinayMedicherla/VINAY_REPO.git</string>
+        </entry>
+        <entry>
+          <string>credentialsId</string>
+          <string>github-pat</string>
+        </entry>
+      </arguments>
+      <sensitiveVariables/>
+      <isUnmodifiedBySanitization>true</isUnmodifiedBySanitization>
+    </cps.a.ArgumentsActionImpl>
+    <wf.a.TimingAction plugin="workflow-api@1384.vdc05a_48f535f">
+      <startTime>1758365586191</startTime>
+    </wf.a.TimingAction>
+    <s.a.LogStorageAction/>
+  </actions>
+</Tag>

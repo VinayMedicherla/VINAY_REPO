@@ -1,0 +1,13 @@
+<?xml version='1.1' encoding='UTF-8'?>
+<fingerprint>
+  <timestamp>2025-09-20 10:04:43.520 UTC</timestamp>
+  <md5sum>3c6ed64788d1ddfa44341c9c4ccca3af</md5sum>
+  <fileName>Credential id=docker-hub-creds name=vinaymedicherla/******</fileName>
+  <usages>
+    <entry>
+      <string>Vinay_CI_Pipeline</string>
+      <ranges>3-4</ranges>
+    </entry>
+  </usages>
+  <facets/>
+</fingerprint>
